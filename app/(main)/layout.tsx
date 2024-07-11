@@ -1,7 +1,9 @@
 import "@/app/globals.css";
+import { auth } from "@/auth";
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 
 export const metaData: Metadata = {
   title: {
@@ -11,24 +13,27 @@ export const metaData: Metadata = {
   description: "Nextjsツールまとめ",
 };
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
   return (
-    <html lang="ja" suppressHydrationWarning>
-      <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          <main className="pt-20 container">{children}</main>
-        </ThemeProvider>
-      </body>
-    </html>
+    <SessionProvider session={session}>
+      <html lang="ja" suppressHydrationWarning>
+        <body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            <main className="pt-20 container">{children}</main>
+          </ThemeProvider>
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

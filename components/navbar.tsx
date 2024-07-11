@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "./mode-toggle";
 
 export default function Navbar() {
   return (
@@ -10,6 +11,7 @@ export default function Navbar() {
             uma<span className="text-primary">noc</span>
           </Link>
         </Button>
+        <ModeToggle />
       </div>
     </nav>
   );
